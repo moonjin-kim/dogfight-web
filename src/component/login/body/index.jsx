@@ -3,6 +3,7 @@ import { colors } from "../../../assets/styles/colors";
 import { Font } from "../../../assets/styles/fonts";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../../api/user";
 
 export default function LoginBody() {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ export default function LoginBody() {
     });
   };
 
+  const clickLoginButton = async () => {
+    const result = await login(id,password);
+  }
+
   const goToRegister = () => {
     navigate("/register");
   }
@@ -38,7 +43,7 @@ export default function LoginBody() {
         value={password}
         type="password"
         placeholder="비밀번호"/>
-      <Styled.LoginButton>
+      <Styled.LoginButton onClick={clickLoginButton}>
         <Font.BodyText color={colors.white}>로그인</Font.BodyText>
       </Styled.LoginButton>
       <Styled.LoginButton onClick={goToRegister} style={{backgroundColor : colors.main2}}>

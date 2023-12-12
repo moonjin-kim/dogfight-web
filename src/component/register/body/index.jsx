@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { colors } from "../../../assets/styles/colors";
 import { Font } from "../../../assets/styles/fonts";
 import { useState } from "react";
+import { register } from "../../../api/user";
 
 export default function RegisterBody() {
   const [inputs, setInputs] = useState({
     id: "",
     password: "",
-    passwordCofirm: "",
+    passwordConfirm: "",
     nickname: "",
     email:"",
   });
@@ -21,6 +22,10 @@ export default function RegisterBody() {
       [name]: value,
     });
   };
+
+  const clickRegisterButton = async () => {
+    const result = await register(id,password,email,nickname);
+  }
 
   return (
     <Styled.LoginBody>
@@ -52,7 +57,7 @@ export default function RegisterBody() {
         onChange={onChange}
         value={nickname}
         placeholder="닉네임"/>
-      <Styled.LoginButton style={{backgroundColor : colors.main2}}>
+      <Styled.LoginButton onClick={clickRegisterButton} style={{backgroundColor : colors.main2}}>
         <Font.BodyText color={colors.white}>회원가입</Font.BodyText>
       </Styled.LoginButton>
     </Styled.LoginBody>
