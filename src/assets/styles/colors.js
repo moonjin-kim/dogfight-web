@@ -11,7 +11,9 @@ export const colors = {
   gray5 : "#2A2A2A",
   gray6 : "7E7E7E",
   black : "#000000",
-  link : "#0645AD"
+  link : "#0645AD",
+  blue : "#0000FF",
+  red : "#FF0000"
 }
 export const rgba = (colorCode, alpha) => {
   // '#' 다음에 두 자리씩 추출하여 16진수로 변환

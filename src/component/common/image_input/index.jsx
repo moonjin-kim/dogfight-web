@@ -10,8 +10,8 @@ import { colors } from '../../../assets/styles/colors';
 import Gallery from '../../../assets/image/gallery.svg'
 
 
-export default function ImageInput() {
-  const [imgFile, setImgFile] = useState("");
+
+export default function ImageInput({imgFile, setImgFile}) {
   const [isActive, setActive] = useState(false);
   const imgRef = useRef();
 
@@ -47,11 +47,6 @@ export default function ImageInput() {
     const file = event.dataTransfer.files[0];
     setFileInfo(file);
   };
-
-  const handleUpload = ({ target }) => {
-    const file = target.files[0];
-    setFileInfo(file);
-  };
   
   return (
     <Styled.Lable
@@ -85,11 +80,10 @@ const Styled = {
   Lable : styled.label`
     width: 150px;
     height: 150px;
-    margin: auto;
     background-color: #fff;
     border-radius: 5px;
     border: 3px dashed #eee;
-    padding: 70px;
+    padding: 72px;
     display: flex;
     flex-direction: column;
     justify-content: center;
