@@ -8,16 +8,17 @@ export default function OptionItem({
   optionName, 
   setOptionName,
   placeholder,
+  setFile,
   color}) {
   return (
     <Styled.OptionItem>
       <Styled.OptionName 
         value={optionName} 
-        onChange={setOptionName} 
+        onChange={e => setOptionName(e.target.value)}
         placeholder={placeholder}
         color={color}
         />
-      <ImageInput imgFile={imageFile} setImgFile={setImageFile} />
+      <ImageInput imgFile={imageFile} setImgFile={setImageFile} setFile={setFile}/>
     </Styled.OptionItem>
   )
 }

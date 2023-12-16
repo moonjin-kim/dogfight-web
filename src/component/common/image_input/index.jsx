@@ -11,7 +11,7 @@ import Gallery from '../../../assets/image/gallery.svg'
 
 
 
-export default function ImageInput({imgFile, setImgFile}) {
+export default function ImageInput({imgFile, setImgFile,setFile}) {
   const [isActive, setActive] = useState(false);
   const imgRef = useRef();
 
@@ -28,8 +28,13 @@ export default function ImageInput({imgFile, setImgFile}) {
     setActive(false);
   };
 
+  useEffect(() => {
+    console.log(imgFile);
+  },[imgFile]);
+
   const setFileInfo = (file) => {
     const reader = new FileReader();
+    console.log(file);
     reader.readAsDataURL(file);
     reader.onloadend = () => {
         setImgFile(reader.result);
@@ -38,6 +43,8 @@ export default function ImageInput({imgFile, setImgFile}) {
 
   const uploadImage = () => {
     const file = imgRef.current.files[0];
+    console.log(file);
+    setFile(file);
     setFileInfo(file);
   }
 
@@ -45,6 +52,7 @@ export default function ImageInput({imgFile, setImgFile}) {
     event.preventDefault();
     setActive(false);
     const file = event.dataTransfer.files[0];
+    setFile(file);
     setFileInfo(file);
   };
   

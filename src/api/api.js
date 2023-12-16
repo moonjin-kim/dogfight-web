@@ -1,13 +1,13 @@
 import axios, { isAxiosError } from 'axios';
-import { getAccessToken, getRequestToekn, setAccessToken, setRequestToken } from '../util/cookies/cookies';
+import { gerRefreshToken, getAccessToken, removeAccessToken, setAccessToken, setRefreshToken, setRequestToken } from '../util/cookies/cookies';
 import { requestAccessToken } from './user';
 
-// export const client = axios.create({
-//   baseURL: 'http://211.109.43.213:8080'
-// });
-
 export const client = axios.create({
-  baseURL: 'http://localhost:8080'
+  baseURL: 'http://211.109.43.213:8080',
+  headers: {
+    "Content-Type": `application/json;charset=UTF-8`,
+    "Accept": "application/json",
+  }
 });
 
 
@@ -33,7 +33,10 @@ client.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
     const status = error.response?.status;
-
+    console.log(`status : ${error}`);
+    console.log(error.response.data.message);
+    console.log(originalRequest._retry);
+  
     // 401 에러 처리 (토큰 만료 등)
     if ((status === 403) && !originalRequest._retry) {
       originalRequest._retry = true; // 중복 재시도를 방지하기 위해 요청 객체에 _retry 속성 추가
@@ -46,7 +49,7 @@ client.interceptors.response.use(
         // 기존 요청을 다시 시도
         return client(originalRequest);
       } catch (err) {
-        return Promise.reject(err);
+        return Promise.reject(error);
       }
     }
     return Promise.reject(error);
@@ -56,7 +59,10 @@ client.interceptors.response.use(
   
 
 async function refreshAccessToken() {
-  const refreshToken = await getRequestToekn();
+  const refreshToken = await gerRefreshToken();
+
+  await removeAccessToken();
+  console.log(`refreshToken : ${refreshToken}`);
 
   if (!refreshToken) {
     return undefined;
@@ -65,13 +71,15 @@ async function refreshAccessToken() {
   try {
     const response  = await requestAccessToken(refreshToken);
     const newAccessToken = response?.token?.access;
+    
 
     if (!newAccessToken) {
       throw new Error('Failed to obtain new access token');
     }
+    console.log(newAccessToken)
 
     await setAccessToken(newAccessToken);
-    await setRequestToken(response?.token?.refresh);
+    await setRefreshToken(response?.token?.refresh);
     return newAccessToken;
   } catch (error) {
     console.log("error", error);

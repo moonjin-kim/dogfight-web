@@ -1,8 +1,11 @@
+import axios from "axios";
 import client from "../api"
 
-export const requestAccessToken = async (requestToken) => {
-  const request = await client.post(`/api/v0/user/refresh`,{
-    requestToken
+const BASE_URL = 'http://localhost:8080'
+
+export const requestAccessToken = async (refreshToken) => {
+  const request = await axios.post(`/api/v0/user/refresh`,{
+    "refreshToken" : refreshToken
   })
   return request.data;
 }
@@ -14,15 +17,15 @@ export const register = async (account, password, email, nickname) => {
     "email" : email,
     "nickname" : nickname
   })
-  console.log(request.data);
+  
   return request.data;
 }
 
 export const login = async (account, password) => {
-  const request = await client.post(`/api/v0/user/login`,{
+  const request = await client.post(`${BASE_URL}/api/v0/user/login`,{
     "account" : account,
     "password" : password,
   })
-  console.log(request.data);
+
   return request.data;
 }

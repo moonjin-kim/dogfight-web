@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { colors } from "../../../assets/styles/colors";
 import { Font } from "../../../assets/styles/fonts";
 import { useState } from "react";
+import {  useNavigate } from "react-router-dom";
 import { register } from "../../../api/user";
+import { removeToken } from "../../../util/cookies/cookies";
 
 export default function RegisterBody() {
   const [inputs, setInputs] = useState({
@@ -12,8 +14,14 @@ export default function RegisterBody() {
     nickname: "",
     email:"",
   });
-
   const { id, password, passwordConfirm, nickname, email} = inputs;
+  const navigate = useNavigate();
+
+
+  const goToLogin = () => {
+    navigate('/login');
+  }
+
   const onChange = (e) => {
     const { name, value } = e.target;
  
@@ -23,8 +31,29 @@ export default function RegisterBody() {
     });
   };
 
+  const checkPasswordConfirm = () => {
+    if (password === passwordConfirm) {
+      // 일치할 경우
+      
+      return true;
+  } else {
+    alert("비밀번호가 일치 하지 않습니다.");
+    return false;
+  }
+  }
+
   const clickRegisterButton = async () => {
-    const result = await register(id,password,email,nickname);
+    try {
+      await removeToken();
+      if(checkPasswordConfirm()) {
+        const result = await register(id,password,email,nickname);
+        alert("회원가입에 성공하였습니다");
+        goToLogin();
+      }
+    } catch(e) {
+      alert(e.response.data.message);
+    }
+    
   }
 
   return (

@@ -4,6 +4,7 @@ import { Font } from "../../../assets/styles/fonts";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../../api/user";
+import { removeToken, setAccessToken, setRefreshToken } from "../../../util/cookies/cookies";
 
 export default function LoginBody() {
   const navigate = useNavigate();
@@ -23,7 +24,17 @@ export default function LoginBody() {
   };
 
   const clickLoginButton = async () => {
-    const result = await login(id,password);
+    try {
+      await removeToken();
+      const result = await login(id,password);
+      setAccessToken(result.data.accessToken);
+      setRefreshToken(result.data.requestToken);
+      alert("로그인 되었습니다.")
+      navigate("/");
+    }catch(e) {
+      alert(e.response.data.message);
+    }
+    
   }
 
   const goToRegister = () => {
