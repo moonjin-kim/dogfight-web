@@ -22,10 +22,16 @@ export const register = async (account, password, email, nickname) => {
 }
 
 export const login = async (account, password) => {
-  const request = await client.post(`${BASE_URL}/api/v0/user/login`,{
+  const request = await client.post(`/api/v0/user/login`,{
     "account" : account,
     "password" : password,
   })
+
+  return request.data;
+}
+
+export const getUser = async () => {
+  const request = await client.get(`/api/v0/user`);
 
   return request.data;
 }

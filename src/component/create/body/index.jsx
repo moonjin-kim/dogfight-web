@@ -19,6 +19,7 @@ export default function CreateBody() {
   const [option2, setOption2] = useState("");
   const [option2File, setOption2File] = useState(null);
   const [option2ImageFile, setOption2ImageFile] = useState(null);
+  const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
 
   const makeBoardData = async() => {
@@ -27,7 +28,7 @@ export default function CreateBody() {
     console.log(option1File);
 
     formData.append('title', title);
-    formData.append('content', "test");
+    formData.append('content', content);
     formData.append('tag', tag);
     formData.append('option1', option1);
     formData.append('option2', option2);
@@ -82,6 +83,11 @@ export default function CreateBody() {
           setFile={setOption2ImageFile}
           color={rgba(colors.main2,0.5)}/>
       </Styled.OptionItems>
+      <Styled.ContentInput
+        type='text'
+        value={content}
+        onChange={(e => setContent(e.target.value))}
+        placeholder={"주제에 대한 설명을 해주세요"}/>
       <Styled.SubmitButton onClick={makeBoard}>
         <Font.TitleText color={colors.white}>게시판 등록하기</Font.TitleText>
       </Styled.SubmitButton>
@@ -135,12 +141,25 @@ const Styled = {
   SubmitButton : styled.div`
     width: 610px;
     height: 80px;
-    margin-top: 80px;
+    margin-top: 5px;
     display: flex;
     background-color: ${colors.main};
     justify-content: center;
     align-items: center;
     border-radius: 4px;
+  `,
+  ContentInput : styled.textarea`
+    width: 560px;
+    height: 150px;
+    border-width: 0px;
+    border-radius: 4px;
+    word-break:break-all;
+    display: block;
+    padding: 25px;
+    margin-top : 75px;
+    background-color: ${colors.gray2};
+    font-size: 18px;
+    font-family: 'PretendardVariable-Regular';
   `
 
 
