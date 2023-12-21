@@ -1,12 +1,12 @@
 import Headers from "../../component/common/header";
-import MainBody from "../../component/main/body";
+import FightBody from "../../component/fight/body";
 import { Styled } from "../common/styles";
 
-export default function MainPage () {
+export default function FightPage () {
   return (
     <Styled.Wrapper>
       <Headers />
-      <MainBody />
+      <FightBody />
     </Styled.Wrapper>
   )
 }

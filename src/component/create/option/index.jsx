@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import ImageInput from "../../common/image_input"
-import { colors } from "../../../assets/styles/colors"
 
 export default function OptionItem({
   imageFile, 
