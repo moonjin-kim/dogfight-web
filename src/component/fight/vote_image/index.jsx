@@ -5,11 +5,12 @@ import { Font } from "../../../assets/styles/fonts"
 export default function VoteOption({name, image, count, clickEvent, boardStatus}) {
   
   return (
-    <Styled.ImageView onClick={clickEvent}>
+    <Styled.ImageView >
       <Styled.TitleTextView>
         <Font.HeadLineText>{name}</Font.HeadLineText>
       </Styled.TitleTextView>
       <Styled.Image 
+        onClick={clickEvent}
         src={`http://localhost:8080/api/v0/${image}`}
       />
       {boardStatus &&
@@ -39,7 +40,6 @@ const Styled = {
     background-color: ${rgba(colors.gray2,1)};
   `,
   Image : styled.img`
-    position: fixed;
     width: 255px;
     height: 250px;
     margin-top: 5px;
@@ -50,6 +50,7 @@ const Styled = {
     position: absolute;
     width: 255px;
     height: 250px;
+    top : 208px;
     margin-top: 5px;
     border-radius: 8px;
     justify-content: center;

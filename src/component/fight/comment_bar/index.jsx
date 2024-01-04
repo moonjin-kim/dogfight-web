@@ -6,7 +6,14 @@ import ReactModal from "react-modal";
 import Password_modal from "../password_modal";
 import PasswordModal from "../password_modal";
 
-export default function CommentBar({nickname, comment, password, isOption1}) {
+export default function CommentBar({
+  id,
+  nickname, 
+  content, 
+  level, 
+  password, 
+  reply,
+  isOption1}) {
   const [isFixed, setIsFixed] = useState(false);
   const [input, setInput] = useState("comment");
 
@@ -14,25 +21,11 @@ export default function CommentBar({nickname, comment, password, isOption1}) {
     setIsFixed(true);
   }
 
-  // if(isFixed) {
-  //   return (
-  //     <Styled.CommentBar isOption1={isOption1}>
-  //       <Styled.HeaderView>
-  //         <Styled.NicknameText>익명</Styled.NicknameText>
-  //       </Styled.HeaderView>
-  //       <Styled.HeaderView>
-  //         <Styled.FixedInput value={input} onChange={(e => setInput(e.target.value))}/>
-  //         <Styled.FixedButton>수정</Styled.FixedButton>
-  //       </Styled.HeaderView>
-  //     </Styled.CommentBar>
-  //   )
-  // }
-
   return (
     <>
-      <Styled.CommentBar isOption1={isOption1}>
+      <Styled.CommentBar key={`${id}_commentBar`} level={level} isOption1={isOption1}>
         <Styled.HeaderView>
-          <Styled.NicknameText>익명</Styled.NicknameText>
+          <Styled.NicknameText>{nickname}</Styled.NicknameText>
           <Styled.FunctionView>
             <Styled.FunctionText onClick={commentFixed}>답글</Styled.FunctionText>
             <Font.CautionText> / </Font.CautionText>
@@ -41,17 +34,32 @@ export default function CommentBar({nickname, comment, password, isOption1}) {
             <Styled.FunctionText>삭제</Styled.FunctionText>
           </Styled.FunctionView>
         </Styled.HeaderView>
-        <Styled.CommentText color={colors.white}>가나다라마바사</Styled.CommentText>
+        <Styled.CommentText color={colors.white}>{content}</Styled.CommentText>
       </Styled.CommentBar>
+      {reply &&
+        reply.map((item) => {
+          return <CommentBar 
+          key={`${id}_commentBar`} 
+          level={level+1} 
+          nickname={item.nickname} 
+          content={item.content}
+          reply={item.children}
+          />
+        })
+      }
       <PasswordModal isFixed={isFixed} />
     </>
   )
 }
 
+const calCommentSize = (level) => `calc(500px - ${level * 20}px)`;
+const calMarginLeft = (level) => `${level * 20}px`;
+
 const Styled = {
   CommentBar : styled.div`
     display: flex;
-    width: 97%;
+    width: ${(props) => calCommentSize(props.level)};
+    margin-left: ${(props) => calMarginLeft(props.level)};
     padding : 10px;
     margin-top: 20px;
     background-color: ${(props) => props.isOption1 ? rgba(colors.red,0.7) : rgba(colors.blue,0.7)};

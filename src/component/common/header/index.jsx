@@ -33,10 +33,17 @@ export default function Headers() {
     
   }
 
+  const goToHome = () => {
+    navigate("/");
+  
+  }
 
   return (
     <Styled.Headers>
       <Styled.leftUil>
+        <li>
+          <Styled.categoryItem onClick={goToHome} color={colors.white}>홈</Styled.categoryItem>
+        </li>
         <li>
           <Styled.categoryItem color={colors.white}>랜덤</Styled.categoryItem>
         </li>

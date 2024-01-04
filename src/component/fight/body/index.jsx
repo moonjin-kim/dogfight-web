@@ -26,7 +26,7 @@ export default function FightBody() {
     <Styled.FightBody>
       <Font.TitleText>{board.title}</Font.TitleText>
       <VoteView vote={board.vote} boardId={board.id}/>
-      <Comment />
+      <Comment boardId={board.id}/>
       <CommentList />
     </Styled.FightBody>
   )
@@ -35,7 +35,7 @@ export default function FightBody() {
 const Styled = {
   FightBody : styled.div`
     flex : 1;
-    height: 100vh;
+    height: auto;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
