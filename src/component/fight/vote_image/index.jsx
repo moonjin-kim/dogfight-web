@@ -2,15 +2,22 @@ import styled from "styled-components"
 import { colors, rgba } from "../../../assets/styles/colors"
 import { Font } from "../../../assets/styles/fonts"
 
-export default function VoteImage() {
+export default function VoteOption({name, image, count, clickEvent, boardStatus}) {
+  
   return (
-    <Styled.ImageView>
+    <Styled.ImageView onClick={clickEvent}>
+      <Styled.TitleTextView>
+        <Font.HeadLineText>{name}</Font.HeadLineText>
+      </Styled.TitleTextView>
       <Styled.Image 
-        src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz7iVIil0gFoY_TblTwuZmRePi5YPHZXRMdhtxYQMTt_KEgo2gUs-SauwvOiujpVSPa94&usqp=CAU`}
+        src={`http://localhost:8080/api/v0/${image}`}
       />
+      {boardStatus &&
       <Styled.ResultImage>
-        <Styled.PercentText>50%</Styled.PercentText>
+        <Styled.PercentText>{count}</Styled.PercentText>
       </Styled.ResultImage>
+      }
+      
     </Styled.ImageView>
   )
 }
@@ -18,25 +25,38 @@ export default function VoteImage() {
 const Styled = {
   ImageView : styled.div`
     display: block;
-    width: 250px;
+    margin-top: 20px;
+    width: 255px;
     height: 250px;
-    background-color: ${colors.black};
+  `,
+  TitleTextView : styled.div`
+    display: flex;
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: ${rgba(colors.gray2,1)};
   `,
   Image : styled.img`
     position: fixed;
-    width: 250px;
+    width: 255px;
     height: 250px;
+    margin-top: 5px;
+    border-radius: 8px;
   `,
   ResultImage : styled.div`
-    position: fixed;
-    width: 250px;
+    display: flex;
+    position: absolute;
+    width: 255px;
     height: 250px;
+    margin-top: 5px;
+    border-radius: 8px;
     justify-content: center;
     align-items: center;
     background-color: ${rgba(colors.main,0.3)};
   `,
-  PercentText : styled(Font.HeadLine2Text)`
-    position: fixed;
-    transform: translate(-50%, 50%);
+  PercentText : styled(Font.TitleText)`
+    font-weight: 600;
   `
 }

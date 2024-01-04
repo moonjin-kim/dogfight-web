@@ -1,20 +1,45 @@
 import styled from "styled-components"
-import VoteImage from "../vote_image"
+import VoteOption from "../vote_image"
+import Comment from "../comment"
+import { voteOption } from "../../../api/board"
+import { useState } from "react"
 
-export default function VoteView() {
+export default function VoteView({vote, boardId}) {
+  const [voteStatus, setVoteStatus] = useState(false);
 
+  const clickImage = async (optionId) => {
+    try {
+      console.log(`${boardId} click`)
+      await voteOption(boardId,optionId);
+      setVoteStatus(true)
+    } catch(e) {
+      console.log(e);
+    }
+    
+  }
   
-
   return (
     <Styled.VoteView>
-      <VoteImage />
-      <VoteImage />
-      {/* <Styled.VoteImage 
-      src={`https://www.google.com/imgres?imgurl=https%3A%2F%2Ffile2.nocutnews.co.kr%2Fnewsroom%2Fimage%2F2023%2F06%2F21%2F202306210855316394_0.jpg&tbnid=g-wn5oBAONwdlM&vet=12ahUKEwjoiZuB36CDAxUeulYBHcBQAwcQMygBegQIARB1..i&imgrefurl=https%3A%2F%2Fwww.nocutnews.co.kr%2Fnews%2F5963059&docid=byDUmv5Z70SrpM&w=710&h=473&q=%ED%98%B8%EB%82%A0%EB%91%90&hl=ko&ved=2ahUKEwjoiZuB36CDAxUeulYBHcBQAwcQMygBegQIARB1`}
-      />
-      <Styled.VoteImage 
-      src={`https://www.google.com/imgres?imgurl=https%3A%2F%2Ffile2.nocutnews.co.kr%2Fnewsroom%2Fimage%2F2023%2F06%2F21%2F202306210855316394_0.jpg&tbnid=g-wn5oBAONwdlM&vet=12ahUKEwjoiZuB36CDAxUeulYBHcBQAwcQMygBegQIARB1..i&imgrefurl=https%3A%2F%2Fwww.nocutnews.co.kr%2Fnews%2F5963059&docid=byDUmv5Z70SrpM&w=710&h=473&q=%ED%98%B8%EB%82%A0%EB%91%90&hl=ko&ved=2ahUKEwjoiZuB36CDAxUeulYBHcBQAwcQMygBegQIARB1`}
-      /> */}
+      {vote && 
+      <>
+        <VoteOption 
+          key={`vote_1`}
+          name={vote.option1} 
+          image={vote.option1Image} 
+          count={vote.option1Count}
+          clickEvent={() => clickImage(1)}
+          boardStatus={voteStatus}
+          />
+        <VoteOption 
+          key={`vote_2`}
+          name={vote.option2} 
+          image={vote.option2Image} 
+          count={vote.option2Count}
+          clickEvent={() => clickImage(2)}
+          boardStatus={voteStatus}
+          />
+      </>
+      }
     </Styled.VoteView>
   )
 }
@@ -26,8 +51,8 @@ const Styled = {
     display : flex;
     justify-content: space-between;
   `,
-  // VoteImage : styled.img`
-  //   width: 250px;
-  //   height: 250px;
-  // `
+  VoteImage : styled.img`
+    width: 250px;
+    height: 250px;
+  `
 }

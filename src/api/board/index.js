@@ -20,3 +20,7 @@ export const newBoard = async (data) => {
   } );
   return result.data;
 }
+
+export const voteOption = async (boardId ,optionId) => {
+  const response = await client.get(`/api/v0/vote/${(boardId)}/${optionId}`);
+}

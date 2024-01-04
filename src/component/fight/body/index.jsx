@@ -1,12 +1,33 @@
 import styled from "styled-components"
 import { Font } from "../../../assets/styles/fonts"
 import VoteView from "../vote_view"
+import Comment from "../comment"
+import { useBoardStore } from "../../../zustand/board"
+import { useEffect } from "react"
+import CommentList from "../comment_list"
 // import { Font } from "../../../assets/styles/fonts";
 export default function FightBody() {
+  const board = useBoardStore(state => state.board);
+  const getEarlyBoard = useBoardStore(state => state.getEarlyBoard);
+
+  useEffect(() => {
+    requestBoard();
+  },[])
+
+  const requestBoard = () => {
+    try {
+      getEarlyBoard(1);
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   return (
     <Styled.FightBody>
-      <Font.TitleText>이세계에 환생한다면 되고 싶은 직업은?</Font.TitleText>
-      <VoteView />
+      <Font.TitleText>{board.title}</Font.TitleText>
+      <VoteView vote={board.vote} boardId={board.id}/>
+      <Comment />
+      <CommentList />
     </Styled.FightBody>
   )
 }
