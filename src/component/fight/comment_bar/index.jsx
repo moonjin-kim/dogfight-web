@@ -5,20 +5,31 @@ import { useState } from "react"
 import ReactModal from "react-modal";
 import Password_modal from "../password_modal";
 import PasswordModal from "../password_modal";
+import Comment from "../comment";
 
 export default function CommentBar({
   id,
+  boardId,
   nickname, 
   content, 
   level, 
   password, 
   reply,
   isOption1}) {
+  const [isReplyWrite, setIsReplyWrite] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const [input, setInput] = useState("comment");
 
   const commentFixed = () => {
     setIsFixed(true);
+  }
+
+  const onPressReplyWrite = () => {
+    setIsReplyWrite(true);
+  }
+
+  const onClickReplyClose = () => {
+    setIsReplyWrite(false);
   }
 
   return (
@@ -27,7 +38,7 @@ export default function CommentBar({
         <Styled.HeaderView>
           <Styled.NicknameText>{nickname}</Styled.NicknameText>
           <Styled.FunctionView>
-            <Styled.FunctionText onClick={commentFixed}>답글</Styled.FunctionText>
+            <Styled.FunctionText onClick={onPressReplyWrite}>답글</Styled.FunctionText>
             <Font.CautionText> / </Font.CautionText>
             <Styled.FunctionText onClick={commentFixed}>수정</Styled.FunctionText>
             <Font.CautionText> / </Font.CautionText>
@@ -36,6 +47,12 @@ export default function CommentBar({
         </Styled.HeaderView>
         <Styled.CommentText color={colors.white}>{content}</Styled.CommentText>
       </Styled.CommentBar>
+      { isReplyWrite &&
+        <>
+          <Styled.CloseButton onClick={onClickReplyClose}>댓글닫기</Styled.CloseButton>
+          <Comment key={`${id}_replyBar`} boardId={boardId} parentId={id} level={level+1}/>
+        </>
+      }
       {reply &&
         reply.map((item) => {
           return <CommentBar 
@@ -93,5 +110,12 @@ const Styled = {
   FixedButton : styled.button`
     width: 15%;
     height: 56px;
+  `,
+  CloseButton : styled(Font.CautionText)`
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: right;
   `
+
 }

@@ -7,6 +7,7 @@ import { useBoardStore } from "../../../zustand/board";
 export default function Comment({
   boardId,
   parentId,
+  level,
 }) {
   const getBoardComment = useBoardStore(state => state.getBoardComment)
   const [nickname, setNickName] = useState("");
@@ -17,14 +18,13 @@ export default function Comment({
     try{
       await newComment(boardId, parentId, nickname, password, content);
       window.location.reload();
-      // await getBoardComment();
     } catch(e) {
       console.log(e)
     }
   }
 
   return (
-    <Styled.CommentView>
+    <Styled.CommentView level={level}>
       <Styled.CommentInputBox>
         <Styled.CommentInfoView>
           <Styled.CommentNickname value={nickname} onChange={(e) => setNickName(e.target.value)} placeholder="닉네임"/>
@@ -37,29 +37,34 @@ export default function Comment({
   )
 }
 
+const calCommentSize = (level) => `calc(520px - ${level * 20}px)`;
+const calMarginLeft = (level) => `${level * 20}px`;
+
 const Styled = {
   CommentView : styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 520px;
+    margin-top: 10px;
+    width: ${(props) => calCommentSize(props.level)};
+    margin-left: ${(props) => calMarginLeft(props.level)};
     height: 100px;
-    margin-top: 100px;
   `,
   CommentInfoView : styled.div`
     flex-direction: column;
     align-content: space-between;
   `,
   CommentInputBox : styled.div`
+    width: 87%;
     flex-direction: row;
   `,
   CommentNickname : styled.input`
-    width: 100px;
+    width: 90px;
     height: 20px;
   `,
   CommentPassword : styled.input`
     margin-left: 10px;
-    width: 100px;
+    width: 90px;
     height: 20px;
   `,
   CommentInputView : styled.div`
@@ -68,12 +73,12 @@ const Styled = {
     justify-content: space-between;
   `,
   CommentInput : styled.textarea`
-    width: 390px;
+    width: 100%;
     height: 60px;
     margin-top: 10px;
   `,
   SubmitButton : styled.button`
-    width: 110px;
+    width: 50px;
     height: 102px;
   `
 }

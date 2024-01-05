@@ -26,7 +26,7 @@ export default function FightBody() {
     <Styled.FightBody>
       <Font.TitleText>{board.title}</Font.TitleText>
       <VoteView vote={board.vote} boardId={board.id}/>
-      <Comment boardId={board.id}/>
+      <Comment boardId={board.id} level={0}/>
       <CommentList />
     </Styled.FightBody>
   )

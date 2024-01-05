@@ -11,8 +11,9 @@ export default function CommentList(){
       <Styled.CommentList>
         {comments.map((item) =>{
         return <CommentBar 
-          id={item.id}
           level={0}
+          id={item.id}
+          boardId={item.boardId}
           nickname={item.nickname}
           content={item.content}
           reply={item.children}

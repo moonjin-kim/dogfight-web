@@ -47,7 +47,7 @@ export default function VoteView({vote, boardId}) {
 const Styled = {
   VoteView : styled.div`
     width: 520px;
-    height: 250px;
+    height: 330px;
     display : flex;
     justify-content: space-between;
   `,
