@@ -1,13 +1,29 @@
 import styled from "styled-components";
 import { Font } from "../../../assets/styles/fonts";
 import Scrolls from "../scrolls";
+import { useEffect, useState } from "react";
+import { getBoards } from "../../../api/board";
 
 export default function MainTopView() {
+  const [hotTopics, setHotTopics] = useState([]);
+  
+  useEffect(() => {
+    requestBaords();
+  },[])
+
+  const requestBaords = async () => {
+    const response = await getBoards()
+    setHotTopics(response.data);
+  }
+
+  console.log(hotTopics)
+
+
   return (
     <Styled.MainTopView>
       <Styled.HeaderText>Hot Topic</Styled.HeaderText>
       <Styled.Margin />
-      <Scrolls />
+      <Scrolls items={hotTopics.content}/>
     </Styled.MainTopView>
   );
 }

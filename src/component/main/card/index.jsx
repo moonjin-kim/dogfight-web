@@ -4,26 +4,32 @@ import { Font } from "../../../assets/styles/fonts";
 import { useNavigate } from "react-router-dom";
 
 export default function BoardCard({
+  id,
   title,
-  content
+  writer,
+  content,
+  views,
+  option1Image,
+  option2Image
 }) {
   const navigate = useNavigate();
+  console.log(title)
   
   const goToFight = () => {
-    navigate("/fight");
+    navigate(`/fight/${id}`);
   }
 
   return (
     <Styled.Card onClick={goToFight}>
       <Styled.ImageView>
         <Styled.Image 
-        src="http://localhost:8080/api/v0/images/20231220/252618519010041.jpg"/>
+        src={`http://localhost:8080/api/v0/${option1Image}`} />
         <Styled.Image 
-        src="http://localhost:8080/api/v0/images/20231220/252618519010041.jpg"/>
+        src={`http://localhost:8080/api/v0/${option2Image}`}/>
       </Styled.ImageView>
       <Styled.BoardName>{title}</Styled.BoardName>
-      <Styled.ContentText>호날두</Styled.ContentText>
-      <Styled.ViewsText>{`조회수 : 100`}</Styled.ViewsText>
+      <Styled.ContentText>{writer}</Styled.ContentText>
+      <Styled.ViewsText>{`조회수 : ${views}`}</Styled.ViewsText>
     </Styled.Card>
   )
 }

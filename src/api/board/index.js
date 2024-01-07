@@ -25,14 +25,21 @@ export const voteOption = async (boardId ,optionId) => {
   const response = await client.get(`/api/v0/vote/${(boardId)}/${optionId}`);
 }
 
-export const newComment = async (boardId, parentId, nickname, password, content) => {
+export const newComment = async (boardId, parentId, nickname, password, content, selectOption) => {
+  console.log(`select : ${selectOption}`)
   const response = await client.post(`/api/v0/comment/new`,{
     boardId : boardId,
     parentId : parentId,
     nickname : nickname,
     password : password,
-    content : content
+    content : content,
+    select : selectOption,
   })
 
   console.log(response);
+}
+
+export const getBoards = async () => {
+  const response = await client.get(`/api/v0/board`)
+  return response.data
 }

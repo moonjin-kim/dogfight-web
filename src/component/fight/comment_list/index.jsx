@@ -3,7 +3,7 @@ import { useBoardStore } from "../../../zustand/board"
 import CommentBar from "../comment_bar";
 import { useCallback } from "react";
 
-export default function CommentList(){
+export default function CommentList({selectOption}){
   const comments = useBoardStore(useCallback(state => state.comments));
 
   if(comments){
@@ -16,7 +16,9 @@ export default function CommentList(){
           boardId={item.boardId}
           nickname={item.nickname}
           content={item.content}
+          option={item.select}
           reply={item.children}
+          selectOption={selectOption}
         />
         })}
       </Styled.CommentList>

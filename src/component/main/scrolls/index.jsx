@@ -63,14 +63,21 @@ function RightArrow() {
 
 const getItem = () => Array(20).fill(0).map((_,ind) => ({id : `id-${ind}`}));
 
-export default function Scrolls() {
-  const [items, setItems] = useState(getItem);
+export default function Scrolls({items}) {
+
+  console.log(items)
   return (
     
     <Container>
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-      {items.map(({id}) => (
-          <BoardCard title={id}/>
+      {items && items.map(({id,title,writer,views,vote}) => (
+          <BoardCard 
+          id={id}
+          title={title}
+          writer={writer} 
+          views={views}
+          option1Image={vote.option1Image}
+          option2Image={vote.option2Image}/>
         ))}
       </ScrollMenu>
     </Container>

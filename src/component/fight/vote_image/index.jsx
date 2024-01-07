@@ -3,7 +3,7 @@ import { colors, rgba } from "../../../assets/styles/colors"
 import { Font } from "../../../assets/styles/fonts"
 
 export default function VoteOption({name, image, count, clickEvent, boardStatus}) {
-  
+  console.log(boardStatus)
   return (
     <Styled.ImageView >
       <Styled.TitleTextView>

@@ -3,12 +3,16 @@ import { Font } from "../../../assets/styles/fonts"
 import VoteView from "../vote_view"
 import Comment from "../comment"
 import { useBoardStore } from "../../../zustand/board"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import CommentList from "../comment_list"
+import { useParams } from "react-router-dom"
 // import { Font } from "../../../assets/styles/fonts";
 export default function FightBody() {
   const board = useBoardStore(state => state.board);
   const getEarlyBoard = useBoardStore(state => state.getEarlyBoard);
+  const {id} = useParams();
+
+  const [selectOption, setSelectOption] = useState(0);
 
   useEffect(() => {
     requestBoard();
@@ -16,7 +20,7 @@ export default function FightBody() {
 
   const requestBoard = () => {
     try {
-      getEarlyBoard(1);
+      getEarlyBoard(id);
     } catch(e) {
       console.log(e)
     }
@@ -25,9 +29,9 @@ export default function FightBody() {
   return (
     <Styled.FightBody>
       <Font.TitleText>{board.title}</Font.TitleText>
-      <VoteView vote={board.vote} boardId={board.id}/>
-      <Comment boardId={board.id} level={0}/>
-      <CommentList />
+      <VoteView vote={board.vote} boardId={board.id} setSelectOption={setSelectOption}/>
+      <Comment boardId={board.id} level={0} selectOption={selectOption}/>
+      <CommentList selectOption={selectOption}/>
     </Styled.FightBody>
   )
 }

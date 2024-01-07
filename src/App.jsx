@@ -17,7 +17,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}/>
           <Route path='/register' element={<RegisterPage />}/>
           <Route path='/create' element={<CreatePage />}/>
-          <Route path='/fight' element={<FightPage />}/>
+          <Route path='/fight/:id' element={<FightPage />}/>
         </Routes>
         <Styled.Footer />
       </Styled.Main>

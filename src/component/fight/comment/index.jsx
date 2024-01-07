@@ -8,6 +8,7 @@ export default function Comment({
   boardId,
   parentId,
   level,
+  selectOption
 }) {
   const getBoardComment = useBoardStore(state => state.getBoardComment)
   const [nickname, setNickName] = useState("");
@@ -16,8 +17,12 @@ export default function Comment({
 
   const submitComment = async () => {
     try{
-      await newComment(boardId, parentId, nickname, password, content);
-      window.location.reload();
+      if(selectOption == 0) {
+        alert("투표 후 댓글을 작성해주세요")
+      } else {
+        await newComment(boardId, parentId, nickname, password, content, selectOption);
+        window.location.reload();
+      }
     } catch(e) {
       console.log(e)
     }

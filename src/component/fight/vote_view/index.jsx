@@ -4,7 +4,7 @@ import Comment from "../comment"
 import { voteOption } from "../../../api/board"
 import { useState } from "react"
 
-export default function VoteView({vote, boardId}) {
+export default function VoteView({vote, boardId, setSelectOption}) {
   const [voteStatus, setVoteStatus] = useState(false);
 
   const clickImage = async (optionId) => {
@@ -12,6 +12,7 @@ export default function VoteView({vote, boardId}) {
       console.log(`${boardId} click`)
       await voteOption(boardId,optionId);
       setVoteStatus(true)
+      setSelectOption(optionId)
     } catch(e) {
       console.log(e);
     }

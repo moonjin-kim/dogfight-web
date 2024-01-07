@@ -14,8 +14,9 @@ export default function CommentBar({
   content, 
   level, 
   password, 
+  selectOption,
   reply,
-  isOption1}) {
+  option}) {
   const [isReplyWrite, setIsReplyWrite] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const [input, setInput] = useState("comment");
@@ -34,7 +35,7 @@ export default function CommentBar({
 
   return (
     <>
-      <Styled.CommentBar key={`${id}_commentBar`} level={level} isOption1={isOption1}>
+      <Styled.CommentBar key={`${id}_commentBar`} level={level} isOption1={option}>
         <Styled.HeaderView>
           <Styled.NicknameText>{nickname}</Styled.NicknameText>
           <Styled.FunctionView>
@@ -50,7 +51,7 @@ export default function CommentBar({
       { isReplyWrite &&
         <>
           <Styled.CloseButton onClick={onClickReplyClose}>댓글닫기</Styled.CloseButton>
-          <Comment key={`${id}_replyBar`} boardId={boardId} parentId={id} level={level+1}/>
+          <Comment key={`${id}_replyBar`} boardId={boardId} parentId={id} level={level+1} selectOption={selectOption}/>
         </>
       }
       {reply &&
@@ -58,8 +59,10 @@ export default function CommentBar({
           return <CommentBar 
           key={`${id}_commentBar`} 
           level={level+1} 
+          selectOption={selectOption}
           nickname={item.nickname} 
           content={item.content}
+          option={item.select}
           reply={item.children}
           />
         })
@@ -79,7 +82,7 @@ const Styled = {
     margin-left: ${(props) => calMarginLeft(props.level)};
     padding : 10px;
     margin-top: 20px;
-    background-color: ${(props) => props.isOption1 ? rgba(colors.red,0.7) : rgba(colors.blue,0.7)};
+    background-color: ${(props) => props.isOption1 == 1 ? rgba(colors.red,0.7) : rgba(colors.blue,0.7)};
     border-radius: 4px;
     flex-direction: column;
     
