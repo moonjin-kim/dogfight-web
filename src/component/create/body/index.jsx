@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import OptionItem from '../option';
 import { colors, rgba } from '../../../assets/styles/colors';
 import { Font } from '../../../assets/styles/fonts';
-import { newBoard } from '../../../api/board';
+import { getTags, newBoard } from '../../../api/board';
 
 export default function CreateBody() {
   const [title, setTitle] = useState("");
@@ -21,6 +21,18 @@ export default function CreateBody() {
   const [option2ImageFile, setOption2ImageFile] = useState(null);
   const [content, setContent] = useState("");
   const [tag, setTag] = useState("");
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    requestTags();
+  },[])
+
+  const requestTags = async () => {
+    const response = await getTags();
+    setTags(response.data);
+    
+  }
 
   const makeBoardData = async() => {
     const formData = new FormData()
@@ -50,6 +62,10 @@ export default function CreateBody() {
     
   }
 
+  const handleSelect = (e) => {
+    setTag(e.target.value);
+    setTagInput(e.target.value)
+  }
 
   return (
     <Styled.CreateBody>
@@ -59,11 +75,16 @@ export default function CreateBody() {
         placeholder='제목(필수)'/>
       <Styled.Tag>
         <Styled.TagInput 
-          value={tag}
-          onChange={e => setTag(e.target.value)}
-          placeholder='태그(직접입력)'
-          disabled={false} />
-        <Styled.TagSelect></Styled.TagSelect>
+          value={tagInput}
+          onChange={e => setTagInput(e.target.value)}
+          disabled={tag === "" ? false : true}
+          placeholder='태그(직접입력)' />
+        <Styled.TagSelect onChange={handleSelect} name="pets" id="pet-select">
+          <option value="" defaultValue={true}>직접 입력</option>
+          {tags.map((item) => {
+            return <option key={item.name} value={item.name}>{item.name}</option>
+          })}
+        </Styled.TagSelect>
       </Styled.Tag>
       <Styled.OptionItems>
         <OptionItem 
@@ -123,6 +144,7 @@ const Styled = {
     width: 610px;
     display: flex;
     margin-top: 10px;
+    color: black;
     justify-content: space-between;
     align-items: center;
   `,
@@ -135,8 +157,11 @@ const Styled = {
   `,
   TagSelect : styled.select`
     width: 300px;
-    height: 10px;
-    padding: 25px;
+    padding: 16px;
+    border-radius: 4px;
+  `,
+  SelectBoxWrapper : styled.div`
+    display: flex;
   `,
   SubmitButton : styled.div`
     width: 610px;
