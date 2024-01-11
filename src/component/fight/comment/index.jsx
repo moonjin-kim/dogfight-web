@@ -3,6 +3,7 @@ import CommentBar from "../comment_bar"
 import { useState } from "react"
 import { newComment } from "../../../api/board";
 import { useBoardStore } from "../../../zustand/board";
+import { colors, rgba } from "../../../assets/styles/colors";
 
 export default function Comment({
   boardId,
@@ -29,7 +30,7 @@ export default function Comment({
   }
 
   return (
-    <Styled.CommentView level={level}>
+    <Styled.CommentView selectOption={selectOption} level={level}>
       <Styled.CommentInputBox>
         <Styled.CommentInfoView>
           <Styled.CommentNickname value={nickname} onChange={(e) => setNickName(e.target.value)} placeholder="닉네임"/>
@@ -51,6 +52,10 @@ const Styled = {
     flex-direction: row;
     justify-content: space-between;
     margin-top: 10px;
+    padding : 10px;
+    border-radius: 5px;
+    background-color: ${(props) => props.selectOption===0 ? colors.gray2 : 
+      props.selectOption===1 ? rgba(colors.red,0.7) : rgba(colors.blue,0.7)};
     width: ${(props) => calCommentSize(props.level)};
     margin-left: ${(props) => calMarginLeft(props.level)};
     height: 100px;
