@@ -3,13 +3,15 @@ import VoteOption from "../vote_image"
 import Comment from "../comment"
 import { voteOption } from "../../../api/board"
 import { useState } from "react"
+import { useBoardListStore } from "../../../zustand/board_list"
 
 export default function VoteView({vote, boardId, setSelectOption}) {
   const [voteStatus, setVoteStatus] = useState(false);
+  const [idx,boardList,setBoardList] = useBoardListStore(state => [state.idx,state.boardList,state.setBoardList])
 
   const clickImage = async (optionId) => {
     try {
-      console.log(`${boardId} click`)
+      await changeVoteOption(optionId)
       await voteOption(boardId,optionId);
       setVoteStatus(true)
       setSelectOption(optionId)
@@ -18,28 +20,34 @@ export default function VoteView({vote, boardId, setSelectOption}) {
     }
     
   }
+
+  const changeVoteOption = async (option) => {
+    let newData = [...boardList];
+    newData[idx].option = option;
+    setBoardList(newData);
+  }
   
   return (
     <Styled.VoteView>
       {vote && 
-      <>
-        <VoteOption 
-          key={`vote_1`}
-          name={vote.option1} 
-          image={vote.option1Image} 
-          count={vote.option1Count}
-          clickEvent={() => clickImage(1)}
-          boardStatus={voteStatus}
-          />
-        <VoteOption 
-          key={`vote_2`}
-          name={vote.option2} 
-          image={vote.option2Image} 
-          count={vote.option2Count}
-          clickEvent={() => clickImage(2)}
-          boardStatus={voteStatus}
-          />
-      </>
+        <>
+          <VoteOption 
+            key={`vote_1`}
+            name={vote.option1} 
+            image={vote.option1Image} 
+            count={vote.option1Count}
+            clickEvent={() => clickImage(1)}
+            selectOption={boardList[idx].option}
+            />
+          <VoteOption 
+            key={`vote_2`}
+            name={vote.option2} 
+            image={vote.option2Image} 
+            count={vote.option2Count}
+            clickEvent={() => clickImage(2)}
+            selectOption={boardList[idx].option}
+            />
+        </>
       }
     </Styled.VoteView>
   )

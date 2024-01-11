@@ -2,8 +2,9 @@ import styled from "styled-components"
 import { colors, rgba } from "../../../assets/styles/colors"
 import { Font } from "../../../assets/styles/fonts"
 
-export default function VoteOption({name, image, count, clickEvent, boardStatus}) {
-  console.log(boardStatus)
+export default function VoteOption({name, image, count, clickEvent, selectOption}) {
+
+  console.log(selectOption)
   return (
     <Styled.ImageView >
       <Styled.TitleTextView>
@@ -13,7 +14,7 @@ export default function VoteOption({name, image, count, clickEvent, boardStatus}
         onClick={clickEvent}
         src={`http://localhost:8080/api/v0/${image}`}
       />
-      {boardStatus &&
+      {selectOption !== 0 &&
       <Styled.ResultImage>
         <Styled.PercentText>{count}</Styled.PercentText>
       </Styled.ResultImage>

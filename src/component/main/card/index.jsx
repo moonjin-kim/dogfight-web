@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { colors } from "../../../assets/styles/colors";
 import { Font } from "../../../assets/styles/fonts";
 import { useNavigate } from "react-router-dom";
+import { useBoardListStore } from "../../../zustand/board_list";
+import { useEffect } from "react";
 
 export default function BoardCard({
   id,
@@ -13,10 +15,24 @@ export default function BoardCard({
   option2Image
 }) {
   const navigate = useNavigate();
-  console.log(title)
+  const [boardList, setBoardList,clear] = useBoardListStore(state => [state.boardList, state.setBoardList, state.clear])
+  
+  useEffect(()=> {
+    clear();
+  },[])
+
   
   const goToFight = () => {
+    clear();
+    addBoard();
     navigate(`/fight/${id}`);
+  }
+
+  const addBoard = () => {
+    const data = {id : id , option : 0}
+    setBoardList(
+      [...boardList,data]
+    )
   }
 
   return (

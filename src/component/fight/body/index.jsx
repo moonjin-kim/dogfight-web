@@ -6,15 +6,18 @@ import { useBoardStore } from "../../../zustand/board"
 import { useEffect, useState } from "react"
 import CommentList from "../comment_list"
 import { useParams } from "react-router-dom"
-// import { Font } from "../../../assets/styles/fonts";
+import { useBoardListStore } from "../../../zustand/board_list"
+
 export default function FightBody() {
   const board = useBoardStore(state => state.board);
+  const [idx,boardList] = useBoardListStore(state => [state.idx,state.boardList])
   const getEarlyBoard = useBoardStore(state => state.getEarlyBoard);
   const {id} = useParams();
 
   const [selectOption, setSelectOption] = useState(0);
 
   useEffect(() => {
+    setSelectOption(boardList[idx].option)
     requestBoard();
   },[])
 
