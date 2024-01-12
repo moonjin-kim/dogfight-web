@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import CommentList from "../comment_list"
 import { useParams } from "react-router-dom"
 import { useBoardListStore } from "../../../zustand/board_list"
+import MoveComponent from "../move_component"
 
 export default function FightBody() {
   const board = useBoardStore(state => state.board);
@@ -19,7 +20,7 @@ export default function FightBody() {
   useEffect(() => {
     setSelectOption(boardList[idx].option)
     requestBoard();
-  },[])
+  },[id])
 
   const requestBoard = () => {
     try {
@@ -33,6 +34,7 @@ export default function FightBody() {
     <Styled.FightBody>
       <Font.TitleText>{board.title}</Font.TitleText>
       <VoteView vote={board.vote} boardId={board.id} setSelectOption={setSelectOption}/>
+      <MoveComponent />
       <Comment boardId={board.id} level={0} selectOption={selectOption}/>
       <CommentList selectOption={selectOption}/>
     </Styled.FightBody>

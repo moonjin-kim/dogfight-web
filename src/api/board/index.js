@@ -48,3 +48,8 @@ export const getTags = async () => {
   const response = await client.get(`/api/v0/board/tag`);
   return response.data
 }
+
+export const next = async () => {
+  const response = await client.get(`/api/v0/board/next`);
+  return response.data
+}
