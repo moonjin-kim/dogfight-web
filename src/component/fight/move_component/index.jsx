@@ -14,54 +14,68 @@ export default function MoveComponent() {
   const navigate = useNavigate();
 
 
-  const clickNext =async () => {
-    console.log(`idx : ${idx}`);
-    console.log(boardList)
+  const clickNext =async (step) => {
+    console.log(step)
     try{
-      if(boardList.length == idx + 1) {
-        const data = await next();
-        const boardData = {id : data.data.id , option : 0}
-        setBoardList([...boardList,boardData]);
-        plusIdx();
-        console.log(data.data.id);
-        navigate(`/fight/${data.data.id}`);
-      } else {
-        plusIdx();
-        navigate(`/fight/${boardList[idx + 1].id}`);
+      if(step < 3) {
+        if(boardList.length == idx + 1) {
+          const data = await next();
+          checkDupBoard(data.data.id)
+          const boardData = {id : data.data.id , option : 0}
+          setBoardList([...boardList,boardData]);
+          plusIdx();
+          navigate(`/fight/${data.data.id}`);
+        } else {
+          plusIdx();
+          navigate(`/fight/${boardList[idx + 1].id}`);
+        }
       }
     } catch (e) {
-      console.log(e)
+      if(e === "Dup") {
+        await clickNext(step + 1)
+      }
     }
     
   }
 
-  const clickPre =async () => {
+  const clickPre = async (step) => {
     try{
-      console.log(boardList)
-      if(idx == 0) {
-        const data = await next();
-        const boardData = {id : data.data.id , option : 0}
-        setBoardList(
-          [boardData,...boardList]
-        )
-        navigate(`/fight/${data.data.id}`);
-      } else {
-        minusIdx();
-        navigate(`/fight/${boardList[idx - 1].id}`);
+      if(step < 3) {
+        if(idx == 0) {
+          const data = await next();
+          const boardData = {id : data.data.id , option : 0}
+          checkDupBoard(data.data.id)
+          setBoardList(
+            [boardData,...boardList]
+          )
+          navigate(`/fight/${data.data.id}`);
+        } else {
+          minusIdx();
+          navigate(`/fight/${boardList[idx - 1].id}`);
+        }
       }
     } catch (e) {
-      console.log(e)
+      if(e === "Dup") {
+        await clickPre(step + 1)
+      }
     }
-    
+  }
+
+  
+  const checkDupBoard = (findId) => {
+    const foundObject = boardList.find(obj => obj.id === findId);
+    if(foundObject) {
+      throw "Dup"
+    }
   }
   
   return (
     <Styled.View>
       <Styled.Button>
-        <Font.BodyText color={colors.main} onClick={clickPre}>이전</Font.BodyText>
+        <Font.BodyText color={colors.main} onClick={() => clickPre(0)}>이전</Font.BodyText>
       </Styled.Button>
       <Styled.Button>
-        <Font.BodyText color={colors.main} onClick={clickNext}>다음</Font.BodyText>
+        <Font.BodyText color={colors.main} onClick={() => clickNext(0)}>다음</Font.BodyText>
         </Styled.Button>
     </Styled.View>
   )
