@@ -4,11 +4,16 @@ import { Styled } from "./styles";
 import { useEffect } from "react";
 import { useUserStore } from "../../../zustand/user";
 import { getUser } from "../../../api/user";
+import { useBoardListStore } from "../../../zustand/board_list";
+import { next } from "../../../api/board";
 
 export default function Headers() {
   const navigate = useNavigate();
   const nickname = useUserStore((state) => state.nickname);
   const setNickname = useUserStore((state) => state.setNickname);
+  const [setBoardList,clear] = useBoardListStore(state => [
+    state.setBoardList,
+    state.clear])
 
   const requestUser = async () => {
     try{
@@ -33,6 +38,19 @@ export default function Headers() {
     
   }
 
+  const clickRandom =async () => {
+    try{
+      const data = await next();
+      await clear();
+      const boardData = {id : data.data.id , option : 0}
+      setBoardList([boardData]);
+      navigate(`/fight/${data.data.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+    
+  }
+
   const goToHome = () => {
     navigate("/");
   
@@ -45,7 +63,7 @@ export default function Headers() {
           <Styled.categoryItem onClick={goToHome} color={colors.white}>홈</Styled.categoryItem>
         </li>
         <li>
-          <Styled.categoryItem color={colors.white}>랜덤</Styled.categoryItem>
+          <Styled.categoryItem onClick={clickRandom} color={colors.white}>랜덤</Styled.categoryItem>
         </li>
         <li>
           <Styled.categoryItem color={colors.white}>카테고리</Styled.categoryItem>

@@ -15,12 +15,12 @@ export default function MoveComponent() {
 
 
   const clickNext =async (step) => {
-    console.log(step)
     try{
       if(step < 3) {
         if(boardList.length == idx + 1) {
           const data = await next();
           checkDupBoard(data.data.id)
+
           const boardData = {id : data.data.id , option : 0}
           setBoardList([...boardList,boardData]);
           plusIdx();
@@ -45,6 +45,7 @@ export default function MoveComponent() {
           const data = await next();
           const boardData = {id : data.data.id , option : 0}
           checkDupBoard(data.data.id)
+          
           setBoardList(
             [boardData,...boardList]
           )
