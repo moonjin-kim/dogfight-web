@@ -5,14 +5,16 @@ import { voteOption } from "../../../api/board"
 import { useState } from "react"
 import { useBoardListStore } from "../../../zustand/board_list"
 
-export default function VoteView({vote, boardId, setSelectOption}) {
+export default function VoteView({voteData, boardId, setSelectOption}) {
   const [voteStatus, setVoteStatus] = useState(false);
+  const [vote, setVote] = useState(voteData);
   const [idx,boardList,setBoardList] = useBoardListStore(state => [state.idx,state.boardList,state.setBoardList])
 
   const clickImage = async (optionId) => {
     try {
       await changeVoteOption(optionId)
-      await voteOption(boardId,optionId);
+      const result = await voteOption(boardId,optionId);
+      setVote(result.data)
       setVoteStatus(true)
       setSelectOption(optionId)
     } catch(e) {

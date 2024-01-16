@@ -12,6 +12,7 @@ import MoveComponent from "../move_component"
 export default function FightBody() {
   const board = useBoardStore(state => state.board);
   const [idx,boardList] = useBoardListStore(state => [state.idx,state.boardList])
+  
   const getEarlyBoard = useBoardStore(state => state.getEarlyBoard);
   const {id} = useParams();
 
@@ -33,7 +34,7 @@ export default function FightBody() {
   return (
     <Styled.FightBody>
       <Font.TitleText>{board.title}</Font.TitleText>
-      <VoteView vote={board.vote} boardId={board.id} setSelectOption={setSelectOption}/>
+      <VoteView voteData={board.vote} boardId={board.id} setSelectOption={setSelectOption}/>
       <MoveComponent />
       <Comment boardId={board.id} level={0} selectOption={selectOption}/>
       <CommentList selectOption={selectOption}/>
