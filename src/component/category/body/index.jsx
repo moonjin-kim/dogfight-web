@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { Font } from "../../../assets/styles/fonts";
 import ListMenu from "../listmenu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getTags } from "../../../api/board";
 
 export default function CategoryBody() {
-  const [tags, setTags] = useState([]);
+  
 
   return (
     <Styled.body>
