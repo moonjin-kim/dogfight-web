@@ -56,6 +56,10 @@ export default function Headers() {
   
   }
 
+  const goToCategory = () => {
+    navigate("/category");
+  }
+
   return (
     <Styled.Headers>
       <Styled.leftUil>
@@ -66,7 +70,7 @@ export default function Headers() {
           <Styled.categoryItem onClick={clickRandom} color={colors.white}>랜덤</Styled.categoryItem>
         </li>
         <li>
-          <Styled.categoryItem color={colors.white}>카테고리</Styled.categoryItem>
+          <Styled.categoryItem onClick={goToCategory} color={colors.white}>카테고리</Styled.categoryItem>
         </li>
         <li>
           <Styled.categoryItem onClick={goToCreate} color={colors.white}>만들기</Styled.categoryItem>

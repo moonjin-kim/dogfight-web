@@ -6,7 +6,7 @@ import RegisterPage from './page/register';
 import CreatePage from './page/create';
 import FightPage from './page/fight';
 import styled from 'styled-components';
-import { colors } from './assets/styles/colors';
+import CategoryPage from './page/category';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />}/>
           <Route path='/create' element={<CreatePage />}/>
           <Route path='/fight/:id' element={<FightPage />}/>
+          <Route path='/category' element={<CategoryPage />} />
         </Routes>
         <Styled.Footer />
       </Styled.Main>

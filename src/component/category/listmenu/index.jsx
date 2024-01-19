@@ -1,0 +1,69 @@
+import styled from "styled-components"
+import { Font } from "../../../assets/styles/fonts"
+import { useEffect, useState } from "react";
+import { getBoards, getBoardsByTag, getTags } from "../../../api/board";
+import { useCategoryStore } from "../../../zustand/category";
+
+export default function ListMenu() {
+  const [selected, setSelected] = useState(0);
+  const [tags, setTags] = useState([]);
+  const {boards, requestTotalBoard, requestBoardByTags} = useCategoryStore(state => state);
+
+  useEffect(() => {
+    requestTags();
+  },[])
+
+  useEffect(() => {
+    requestBoards();
+  },[selected])
+
+
+  const requestBoards = async () => {
+    if(selected === 0) {
+      console.log("selected")
+      requestTotalBoard();
+    } else {
+      requestBoardByTags(tags[selected-1].name);
+    }
+  }
+
+  const clickCategory = (id) => {
+    setSelected(id);
+  }
+
+  const requestTags = async () => {
+    const response = await getTags();
+    setTags(response.data);
+    
+  }
+  return (
+    <Styled.MenuList>
+      <Styled.Item>
+        <Styled.ItemText onClick={()=>clickCategory(0)} selected={selected === 0}>전체</Styled.ItemText>
+      </Styled.Item>
+      {tags.map((item,idx) => {
+        return (
+          <Styled.Item>
+            <Styled.ItemText onClick={()=>clickCategory(idx + 1)} selected={selected === idx + 1}>{item.name}</Styled.ItemText>
+          </Styled.Item>
+        )
+      })}
+    </Styled.MenuList>
+  )
+}
+
+const Styled = {
+  MenuList : styled.ul`
+    display: flex;
+    padding: 0;
+    flex-wrap: wrap;
+    list-style: none;
+  `,
+  Item : styled.li`
+    margin-right: 50px;
+    margin-bottom : 20px;
+  `,
+  ItemText : styled(Font.BodyText)`
+    text-decoration: ${prop => prop.selected && "underline"};
+  `
+}
