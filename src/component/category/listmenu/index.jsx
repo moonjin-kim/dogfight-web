@@ -39,14 +39,16 @@ export default function ListMenu() {
   return (
     <Styled.MenuList>
       <Styled.Item>
-        <Styled.ItemText onClick={()=>clickCategory(0)} selected={selected === 0}>전체</Styled.ItemText>
+        <Styled.ItemText onClick={()=>clickCategory(0)} selected={selected === 0}>{`전체(${tags.find(obj => obj.id === 0).count})`}</Styled.ItemText>
       </Styled.Item>
       {tags.map((item,idx) => {
-        return (
-          <Styled.Item>
-            <Styled.ItemText onClick={()=>clickCategory(idx + 1)} selected={selected === idx + 1}>{item.name}</Styled.ItemText>
-          </Styled.Item>
-        )
+        if(item.id !== 0) {
+          return (
+            <Styled.Item>
+              <Styled.ItemText onClick={()=>clickCategory(idx + 1)} selected={selected === idx + 1}>{`${item.name}(${item.count})`}</Styled.ItemText>
+            </Styled.Item>
+          )
+        }
       })}
     </Styled.MenuList>
   )
