@@ -55,6 +55,7 @@ export const getBoardsByTag = async (tag) => {
 
 export const getTags = async () => {
   const response = await client.get(`/api/v0/board/tag`);
+  console.log(response)
   return response.data
 }
 

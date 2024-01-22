@@ -6,7 +6,7 @@ import { useCategoryStore } from "../../../zustand/category";
 
 export default function ListMenu() {
   const [selected, setSelected] = useState(0);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([{id:0,name : "", count : 0}]);
   const {boards, requestTotalBoard, requestBoardByTags} = useCategoryStore(state => state);
 
   useEffect(() => {
@@ -32,8 +32,13 @@ export default function ListMenu() {
   }
 
   const requestTags = async () => {
-    const response = await getTags();
-    setTags(response.data);
+    try {
+      const response = await getTags();
+      console.log(response)
+      setTags(response.data);
+    } catch(e) {
+      console.log(e);
+    }
     
   }
   return (
