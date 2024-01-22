@@ -2,13 +2,17 @@ import styled from "styled-components"
 import VoteOption from "../vote_image"
 import Comment from "../comment"
 import { voteOption } from "../../../api/board"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useBoardListStore } from "../../../zustand/board_list"
 
 export default function VoteView({voteData, boardId, setSelectOption}) {
-  const [voteStatus, setVoteStatus] = useState(false);
   const [vote, setVote] = useState(voteData);
+  const [voteStatus, setVoteStatus] = useState(false);
   const [idx,boardList,setBoardList] = useBoardListStore(state => [state.idx,state.boardList,state.setBoardList])
+
+  useEffect(()=> {
+    setVote(voteData)
+  },[voteData])
 
   const clickImage = async (optionId) => {
     try {
@@ -28,6 +32,7 @@ export default function VoteView({voteData, boardId, setSelectOption}) {
     newData[idx].option = option;
     setBoardList(newData);
   }
+  
   
   return (
     <Styled.VoteView>

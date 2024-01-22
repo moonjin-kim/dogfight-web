@@ -36,8 +36,11 @@ export const newComment = async (boardId, parentId, nickname, password, content,
     content : content,
     select : selectOption,
   })
+}
 
-  console.log(response);
+export const delComment = async (commentId,password) => {
+  const response = await client.delete(`/api/v0/comment/${commentId}?password=${password}`);
+  return response.data;
 }
 
 export const getBoards = async () => {

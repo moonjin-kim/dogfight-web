@@ -11,7 +11,6 @@ export default function Comment({
   level,
   selectOption
 }) {
-  const getBoardComment = useBoardStore(state => state.getBoardComment)
   const [nickname, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [content, setContent] = useState("");

@@ -4,7 +4,7 @@ import { Font } from "../../../assets/styles/fonts"
 
 export default function VoteOption({name, image, count, clickEvent, selectOption}) {
 
-  console.log(selectOption)
+  console.log(image)
   return (
     <Styled.ImageView >
       <Styled.TitleTextView>

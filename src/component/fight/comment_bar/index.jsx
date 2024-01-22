@@ -2,10 +2,9 @@ import styled from "styled-components"
 import { colors, rgba } from "../../../assets/styles/colors"
 import { Font } from "../../../assets/styles/fonts"
 import { useState } from "react"
-import ReactModal from "react-modal";
-import Password_modal from "../password_modal";
 import PasswordModal from "../password_modal";
 import Comment from "../comment";
+import { delComment } from "../../../api/board";
 
 export default function CommentBar({
   id,
@@ -19,10 +18,19 @@ export default function CommentBar({
   option}) {
   const [isReplyWrite, setIsReplyWrite] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
-  const [input, setInput] = useState("comment");
 
-  const commentFixed = () => {
-    setIsFixed(true);
+  const commentFixed = async (commentId) => {
+    try {
+      const password = prompt("비밀번호를 입력해주세요");
+      const req = await delComment(commentId,password);
+      alert("댓글이 삭제되었습니다.");
+      window.location.reload();
+    } catch (e) {
+      console.log("e")
+      if(e.response.status = 400) {
+        alert(e.response.data.message);
+      }
+    }
   }
 
   const onPressReplyWrite = () => {
@@ -39,11 +47,15 @@ export default function CommentBar({
         <Styled.HeaderView>
           <Styled.NicknameText>{nickname}</Styled.NicknameText>
           <Styled.FunctionView>
-            <Styled.FunctionText onClick={onPressReplyWrite}>답글</Styled.FunctionText>
-            <Font.CautionText> / </Font.CautionText>
-            <Styled.FunctionText onClick={commentFixed}>수정</Styled.FunctionText>
-            <Font.CautionText> / </Font.CautionText>
-            <Styled.FunctionText>삭제</Styled.FunctionText>
+            {option !== 3 ?
+              (
+                <>
+                  <Styled.FunctionText onClick={onPressReplyWrite}>답글</Styled.FunctionText>
+                  <Font.CautionText> / </Font.CautionText>
+                  <Styled.FunctionText onClick={()=>commentFixed(id)}>삭제</Styled.FunctionText>
+                </>
+              ) : (<Styled.FunctionText>삭제됨</Styled.FunctionText>)
+            }
           </Styled.FunctionView>
         </Styled.HeaderView>
         <Styled.CommentText color={colors.white}>{content}</Styled.CommentText>
@@ -82,7 +94,8 @@ const Styled = {
     margin-left: ${(props) => calMarginLeft(props.level)};
     padding : 10px;
     margin-top: 20px;
-    background-color: ${(props) => props.isOption1 == 1 ? rgba(colors.red,0.7) : rgba(colors.blue,0.7)};
+    background-color: ${(props) => props.isOption1 === 3 ? colors.gray2 : 
+      props.isOption1 === 1 ? rgba(colors.red,0.7) : rgba(colors.blue,0.7)};
     border-radius: 4px;
     flex-direction: column;
     
