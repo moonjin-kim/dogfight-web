@@ -43,13 +43,13 @@ export const delComment = async (commentId,password) => {
   return response.data;
 }
 
-export const getBoards = async () => {
-  const response = await client.get(`/api/v0/board`)
+export const getBoards = async (page=0) => {
+  const response = await client.get(`/api/v0/board?page=${page}&pageSize=12`)
   return response.data
 }
 
-export const getBoardsByTag = async (tag) => {
-  const response = await client.get(`/api/v0/board?tag=${tag}`)
+export const getBoardsByTag = async (tag,page=0) => {
+  const response = await client.get(`/api/v0/board?tag=${tag}&page=${page}&pageSize=12`)
   return response.data
 }
 

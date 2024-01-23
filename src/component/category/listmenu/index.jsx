@@ -7,7 +7,7 @@ import { useCategoryStore } from "../../../zustand/category";
 export default function ListMenu() {
   const [selected, setSelected] = useState(0);
   const [tags, setTags] = useState([{id:0,name : "", count : 0}]);
-  const {boards, requestTotalBoard, requestBoardByTags} = useCategoryStore(state => state);
+  const {boards, selectTotalTag, selectTags} = useCategoryStore(state => state);
 
   useEffect(() => {
     requestTags();
@@ -21,9 +21,9 @@ export default function ListMenu() {
   const requestBoards = async () => {
     if(selected === 0) {
       console.log("selected")
-      requestTotalBoard();
+      selectTotalTag();
     } else {
-      requestBoardByTags(tags[selected-1].name);
+      selectTags(tags[selected-1].name);
     }
   }
 

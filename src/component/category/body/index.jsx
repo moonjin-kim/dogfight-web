@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { Font } from "../../../assets/styles/fonts";
 import ListMenu from "../listmenu";
-import { useEffect, useState } from "react";
-import { getTags } from "../../../api/board";
 
 export default function CategoryBody() {
   
@@ -10,7 +8,7 @@ export default function CategoryBody() {
   return (
     <Styled.body>
       <Styled.HeaderText>카테고리</Styled.HeaderText>
-      <ListMenu />
+      <ListMenu/>
     </Styled.body>
   );
 }

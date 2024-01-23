@@ -56,7 +56,8 @@ const Styled = {
     height: 300px;
     padding : 20px;
     margin-right: 10px;
-    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-bottom: 30px;
     display: flex;
     position: relative;
     flex-direction: column;
