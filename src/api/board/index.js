@@ -8,13 +8,6 @@ const BASE_URL = 'http://localhost:8080'
 
 
 export const newBoard = async (data) => {
-  for (let key of data.keys()) {
-    console.log(key, ":", data.get(key));
-  }
-
-  for (let value of data.values()) {
-    console.log(value);
-  }
   const result = await client.post(`${BASE_URL}/api/v0/board/new`, data,{
     headers: { 'content-type': 'multipart/form-data' },
   } );
@@ -27,7 +20,6 @@ export const voteOption = async (boardId ,optionId) => {
 }
 
 export const newComment = async (boardId, parentId, nickname, password, content, selectOption) => {
-  console.log(`select : ${selectOption}`)
   const response = await client.post(`/api/v0/comment/new`,{
     boardId : boardId,
     parentId : parentId,
@@ -55,7 +47,6 @@ export const getBoardsByTag = async (tag,page=0) => {
 
 export const getTags = async () => {
   const response = await client.get(`/api/v0/board/tag`);
-  console.log(response)
   return response.data
 }
 

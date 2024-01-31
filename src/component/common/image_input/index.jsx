@@ -28,9 +28,6 @@ export default function ImageInput({imgFile, setImgFile,setFile}) {
     setActive(false);
   };
 
-  useEffect(() => {
-    console.log(imgFile);
-  },[imgFile]);
 
   const setFileInfo = (file) => {
     const reader = new FileReader();
@@ -43,7 +40,6 @@ export default function ImageInput({imgFile, setImgFile,setFile}) {
 
   const uploadImage = () => {
     const file = imgRef.current.files[0];
-    console.log(file);
     setFile(file);
     setFileInfo(file);
   }

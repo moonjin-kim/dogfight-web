@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import CategoryBody from "../../component/category/body";
 import ItemList from "../../component/category/itemlist";
 import Headers from "../../component/common/header";
@@ -13,8 +14,18 @@ export default function CategoryPage() {
   return (
     <Styled.Wrapper>
       <Headers />
-      <CategoryBody />
-      <ItemList boards={boards} currentPage={currentPage} totalPage={totalPage} clickSeeMore={seeMore}/>
+      <CategoryStyled.Body>
+        <CategoryBody />
+        <ItemList boards={boards} currentPage={currentPage} totalPage={totalPage} clickSeeMore={seeMore}/>
+      </CategoryStyled.Body>
     </Styled.Wrapper>
   )
+}
+
+const CategoryStyled = {
+  Body : styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `
 }

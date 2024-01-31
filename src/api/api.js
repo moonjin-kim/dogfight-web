@@ -34,8 +34,6 @@ client.interceptors.response.use(
     const originalRequest = error.config;
     const status = error.response?.status;
     console.log(`status : ${error}`);
-    console.log(error.response.data.message);
-    console.log(originalRequest._retry);
   
     // 401 에러 처리 (토큰 만료 등)
     if ((status === 403) && !originalRequest._retry) {
@@ -62,7 +60,6 @@ async function refreshAccessToken() {
   const refreshToken = await gerRefreshToken();
 
   await removeAccessToken();
-  console.log(`refreshToken : ${refreshToken}`);
 
   if (!refreshToken) {
     return undefined;
@@ -76,7 +73,6 @@ async function refreshAccessToken() {
     if (!newAccessToken) {
       throw new Error('Failed to obtain new access token');
     }
-    console.log(newAccessToken)
 
     await setAccessToken(newAccessToken);
     await setRefreshToken(response?.token?.refresh);

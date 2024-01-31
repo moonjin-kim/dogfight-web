@@ -15,9 +15,10 @@ export default function CategoryBody() {
 
 const Styled = {
   body : styled.div`
-    flex : 1;
+    width: 1080px;
     padding: 20px;
   `,
+
   HeaderText : styled(Font.TitleText)`
     margin-bottom: 20px;
   `
